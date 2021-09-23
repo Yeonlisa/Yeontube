@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Typography, Button, Form, message, Input, Icon } from 'antd';
 import Dropzone from 'react-dropzone';
-import axios from 'axios';
+import Axios from 'axios';
 import { useSelector } from "react-redux";
 
 const { TextArea } = Input;
@@ -74,7 +74,7 @@ function VideoUploadPage(props) {
             thumbnail: Thumbnail
         }
 
-        axios.post('/api/video/uploadVideo', variables)
+        Axios.post('/api/video/uploadVideo', variables)
             .then(response => {
                 if (response.data.success) {
                     alert('video Uploaded Successfully')
@@ -92,26 +92,28 @@ function VideoUploadPage(props) {
         const config = {
             header: { 'content-type': 'multipart/form-data' }
         }
-        console.log(files)
         formData.append("file", files[0])
+        console.log(files)
 
-        axios.post('/api/video/uploadfiles', formData, config)
+        Axios.post('/api/video/uploadfiles', formData, config)
             .then(response => {
                 if (response.data.success) {
+                    console.log(response.data)
 
                     let variable = {
-                        filePath: response.data.filePath,
-                        fileName: response.data.fileName
+                        url: response.data.url,
+                        fileName: response.data.filename,
                     }
                     setFilePath(response.data.filePath)
 
                     //gerenate thumbnail with this filepath ! 
 
-                    axios.post('/api/video/thumbnail', variable)
+                    Axios.post('/api/video/thumbnail', variable)
                         .then(response => {
                             if (response.data.success) {
+                                console.log(response.data)
                                 setDuration(response.data.fileDuration)
-                                setThumbnail(response.data.thumbsFilePath)
+                                setThumbnail(response.data.url)
                             } else {
                                 alert('Failed to make the thumbnails');
                             }
@@ -128,7 +130,7 @@ function VideoUploadPage(props) {
     return (
         <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <Title level={2} > Upload Video</Title>
+            <Title level={2}>Upload Video</Title>
         </div>
 
         <Form onSubmit={onSubmit}>
@@ -148,7 +150,7 @@ function VideoUploadPage(props) {
                     )}
                 </Dropzone>
 
-                {Thumbnail !== "" &&
+                {Thumbnail &&
                     <div>
                         <img src={`http://localhost:5000/${Thumbnail}`} alt="haha" />
                     </div>

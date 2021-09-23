@@ -9,7 +9,7 @@ var ffmpeg = require("fluent-ffmpeg")
 // storage multer config
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "upload/");
+        cb(null, "uploads/");
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}_${file.originalname}`);
@@ -64,7 +64,7 @@ router.post('/thumbnail', (req, res) => {
     })
     .on('end', () => {
         console.log('Screenshots taken');
-        return res.json({ success: true, url: filePath, fileName: filenames, fileDuration: fileDuration})
+        return res.json({ success: true, url: filePath, fileDuration: fileDuration})
     })
     .on('error', (err) => {
         console.error(err);
