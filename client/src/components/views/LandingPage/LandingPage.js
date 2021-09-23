@@ -1,14 +1,13 @@
 import React from 'react'
-import { FaCode } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa";
 
 function LandingPage() {
     return (
         <>
             <div className="app">
-                <FaCode style={{ fontSize: '4rem' }} /><br />
-                <span style={{ fontSize: '2rem' }}>Let's Start Coding!</span>
+                <FaYoutube style={{ fontSize: '7rem', color: 'red'}} /><br />
+                <span style={{ fontSize: '2rem' }}>YeonTube와 함께라면 당신도 크리에이터!</span>
             </div>
-            <div style={{ float: 'right' }}>Thanks For Using This Boiler Plate by John Ahn</div>
         </>
     )
 }
