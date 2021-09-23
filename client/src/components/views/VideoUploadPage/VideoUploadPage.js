@@ -64,21 +64,23 @@ function VideoUploadPage(props) {
         }
 
         const variables = {
-            writer: user.userData._id,
+            writer: user.userData._id, // user의 id를 redux에서 가져온다.
             title: title,
             description: Description,
             privacy: privacy,
             filePath: FilePath,
             category: Categories,
             duration: Duration,
-            thumbnail: Thumbnail
+            thumbnail: Thumbnail,
         }
 
         Axios.post('/api/video/uploadVideo', variables)
             .then(response => {
                 if (response.data.success) {
-                    alert('video Uploaded Successfully')
-                    props.history.push('/')
+                    message.success('video Uploaded Successfully')
+                    setTimeout(() => {
+                        props.history.push('/')
+                    }, 3000)
                 } else {
                     alert('Failed to upload video')
                 }
