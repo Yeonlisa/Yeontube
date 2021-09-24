@@ -4,10 +4,10 @@ const { Video } = require("../models/Video");
 
 const { auth } = require("../middleware/auth");
 const multer = require("multer");
-var ffmpeg = require("fluent-ffmpeg")
+var ffmpeg = require("fluent-ffmpeg");
 
 // storage multer config
-let storage = multer.diskStorage({
+var storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "uploads/");
     },
@@ -23,7 +23,7 @@ let storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage: storage }).single("file");
+var upload = multer({ storage: storage }).single("file");
 
 
 //=================================
@@ -37,7 +37,7 @@ router.post('/uploadfiles', (req, res) => {
         if(err) {
             return res.json({ success: false, err })
         }
-        return res.json({ success: true, url: res.req.file.path, fileName: res.req.file.filename })
+        return res.json({ success: true, filePath: res.req.file.path, fileName: res.req.file.filename })
     })
 })
 
@@ -103,7 +103,7 @@ router.post('/thumbnail', (req, res) => {
     })
     .screenshots({
         // Will take screenshots at 20%, 40%, 60%, and 80% of the video
-        count: 3,
+        count: 1,
         folder: 'uploads/thumbnails',
         size: '320x240',
         // '%b' : input basename (filename w/o extension)

@@ -12,7 +12,7 @@ const Private = [
     { value: 1, label: 'Public' }
 ]
 
-const Catogory = [
+const CategoryOptions = [
     { value: 0, label: "Film & Animation" },
     { value: 0, label: "Autos & Vehicles" },
     { value: 0, label: "Music" },
@@ -23,17 +23,17 @@ const Catogory = [
 function VideoUploadPage(props) {
     const user = useSelector(state => state.user);
 
-    const [title, setTitle] = useState("");
+    const [VideoTitle, setVideoTitle] = useState("");
     const [Description, setDescription] = useState("");
-    const [privacy, setPrivacy] = useState(0)
+    const [Privacy, setPrivacy] = useState(0)
     const [Categories, setCategories] = useState("Film & Animation")
     const [FilePath, setFilePath] = useState("")
     const [Duration, setDuration] = useState("")
-    const [Thumbnail, setThumbnail] = useState("")
+    const [ThumbnailPath, setThumbnailPath] = useState("")
 
 
     const handleChangeTitle = (event) => {
-        setTitle(event.currentTarget.value)
+        setVideoTitle(event.currentTarget.value)
     }
 
     const handleChangeDecsription = (event) => {
@@ -57,27 +57,27 @@ function VideoUploadPage(props) {
             return alert('Please Log in First')
         }
 
-        if (title === "" || Description === "" ||
+        if (VideoTitle === "" || Description === "" ||
             Categories === "" || FilePath === "" ||
-            Duration === "" || Thumbnail === "") {
+            Duration === "" || ThumbnailPath === "") {
             return alert('Please first fill all the fields')
         }
 
         const variables = {
             writer: user.userData._id, // user의 id를 redux에서 가져온다.
-            title: title,
+            title: VideoTitle,
             description: Description,
-            privacy: privacy,
+            privacy: Privacy,
             filePath: FilePath,
             category: Categories,
             duration: Duration,
-            thumbnail: Thumbnail,
+            thumbnail: ThumbnailPath,
         }
 
         Axios.post('/api/video/uploadVideo', variables)
             .then(response => {
                 if (response.data.success) {
-                    message.success('video Uploaded Successfully')
+                    message.success('Video Uploaded Successfully')
                     setTimeout(() => {
                         props.history.push('/')
                     }, 3000)
@@ -103,7 +103,7 @@ function VideoUploadPage(props) {
                     console.log(response.data)
 
                     let variable = {
-                        url: response.data.url,
+                        url: response.data.filePath,
                         fileName: response.data.filename,
                     }
                     setFilePath(response.data.filePath)
@@ -115,7 +115,7 @@ function VideoUploadPage(props) {
                             if (response.data.success) {
                                 console.log(response.data)
                                 setDuration(response.data.fileDuration)
-                                setThumbnail(response.data.url)
+                                setThumbnailPath(response.data.url)
                             } else {
                                 alert('Failed to make the thumbnails');
                             }
@@ -152,9 +152,9 @@ function VideoUploadPage(props) {
                     )}
                 </Dropzone>
 
-                {Thumbnail &&
+                {ThumbnailPath &&
                     <div>
-                        <img src={`http://localhost:5000/${Thumbnail}`} alt="haha" />
+                        <img src={`http://localhost:5000/${ThumbnailPath}`} alt="thumbnail" />
                     </div>
                 }
             </div>
@@ -163,7 +163,7 @@ function VideoUploadPage(props) {
             <label>Title</label>
             <Input
                 onChange={handleChangeTitle}
-                value={title}
+                value={VideoTitle}
             />
             <br /><br />
             <label>Description</label>
@@ -181,7 +181,7 @@ function VideoUploadPage(props) {
             <br /><br />
 
             <select onChange={handleChangeTwo}>
-                {Catogory.map((item, index) => (
+                {CategoryOptions.map((item, index) => (
                     <option key={index} value={item.label}>{item.label}</option>
                 ))}
             </select>
