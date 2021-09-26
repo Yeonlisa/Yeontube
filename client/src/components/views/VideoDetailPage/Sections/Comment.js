@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Axios from 'axios'
 import { useSelector } from 'react-redux'
+import SingleComment from './SingleComment'
 
 function Comment(props) {
 
@@ -27,6 +28,8 @@ function Comment(props) {
             .then(response => {
                 if(response.data.success) {
                     console.log(response.data.result)
+                    setcommentValue("")
+                    props.refreshFunction(response.data.result)
                 } else {
                     alert('Failed to save Comment')
                 }
@@ -40,6 +43,11 @@ function Comment(props) {
             <hr />
 
             {/* Comment Lists */}
+
+            {props.commentLists && props.commentLists.map((comment, index) => (
+                (!comment.responseTo && 
+                <SingleComment refreshFunction={props.refreshFunction} key={index} comment={comment} postId={videoId} />)
+            ))}
 
             {/* Root Comment Form */}
 

@@ -22,7 +22,21 @@ function VideoDetailPage(props) {
                     alert('Failed to get video Info')
                 }
             })
+        
+        Axios.post('/api/comment/getComments', variable)
+            .then(response => {
+                if(response.data.success) {
+                    setComments(response.data.comments)
+                    console.log(Comments)
+                } else {
+                    alert('Failed to get video Info')
+                }
+            })
     }, [])
+
+    const refreshFunction = (newComment) => {
+        setComments(Comments.concat(newComment))
+    }
 
     if(VideoDetail.writer) {
 
@@ -44,7 +58,7 @@ function VideoDetailPage(props) {
                             />
                         </List.Item>
                         {/* Comments */}
-                        <Comment postId={videoId} />
+                        <Comment refreshFunction={refreshFunction} commentLists={Comments} postId={videoId} />
                     </div>
                 </Col>
                 <Col lg={6} xs={24}>
