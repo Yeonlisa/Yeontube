@@ -8,13 +8,13 @@
     "npm": "6.9.0"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b master -d build",
     "start": "node server/index.js",
     "build": "react-scripts build",
     "backend": "nodemon server/index.js",
     "frontend": "npm run start --prefix client",
-    "dev": "concurrently \"npm run backend\" \"npm run start --prefix client\"",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -b master -d build"
+    "dev": "concurrently \"npm run backend\" \"npm run start --prefix client\""
   },
   "author": "John ahn",
   "license": "ISC",
