@@ -9,7 +9,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -b master -d build",
+    "deploy": "gh-pages -d build",
     "start": "node server/index.js",
     "build": "react-scripts build",
     "backend": "nodemon server/index.js",
